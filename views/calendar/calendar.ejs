@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+
+    <style>
+        .active {
+            color: skyblue;
+            font-size: 24px;
+        }
+        .today{
+            color: skyblue;
+            font-size: 24px;
+        }
+        .hidden {
+            display: none;
+        }
+
+        .on {
+            display: block;
+        }
+        
+        .content {
+            display: block;
+        }
+
+    </style>
+
+</head>
+<body class="bg-slate-400">
+    <div class="bg-white w-full text-lg font-medium py-3 fixed z-10 text-gray-700 border-b top-0 left-0 justify-center flex items-center">
+        <span class="cursor-pointer absolute left-5 top-3 text-lg"><a href="/"><i class="fa-solid fa-arrow-left"></i></a></span>
+        <span class="text-sky-500 dark:text-sky-400 font-bold"></span>
+        <span class="text-sky-500 dark:text-sky-400 font-bold">우리의 계획을 적어주세요!</span>
+    </div>
+
+
+
+    <div class="bg-slate-400 py-10 px-5 flex flex-col space-y-5 h-screen">
+        <div class="flex items-center justify-center py-8 px-4">
+            <div class="max-w-sm w-full shadow-lg">
+                <div class="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t">
+                    <div class="px-4 flex items-center justify-between">
+                        <span  tabindex="0" class="focus:outline-none  text-base font-bold dark:text-gray-100 text-gray-800" id="current-year-month"></span> 
+                        <div class="flex items-center">
+                            <button id="prev" aria-label="calendar backward" class="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <polyline points="15 6 9 12 15 18" />
+                            </svg>
+                        </button>
+                        <button id="next" aria-label="calendar forward" class="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"> 
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler  icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <polyline points="9 6 15 12 9 18" />
+                            </svg>
+                        </button>
+
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-12 overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Mo</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Tu</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">We</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Th</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Fr</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Sa</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="w-full flex justify-center">
+                                            <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Su</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendar-body">
+                             <!--    <tr>
+                                    <td class="pt-6">
+                                        <div class="px-2 py-2 cursor-pointer flex w-full justify-center"></div>
+                                    </td>
+                                <tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="md:py-8 py-5 md:px-16 px-5 dark:bg-gray-700 bg-gray-50 rounded-b">
+                    <div class="px-4 " id="showBtn"  >
+                     <!--  <div class="border-b pb-4 border-gray-400 border-dashed">
+                            <p class="text-xs font-light leading-3 text-gray-500 dark:text-gray-300">9:00 AM</p>
+                            <a tabindex="0" class="focus:outline-none text-lg font-medium leading-5 text-gray-800 dark:text-gray-100 mt-2">Zoom call with design team</a>
+                            <p class="text-sm pt-2 leading-4 leading-none text-gray-600 dark:text-gray-300">Discussion on UX sprint and Wireframe review</p>
+                        </div>
+                        <div class="border-b pb-4 border-gray-400 border-dashed pt-5">
+                            <p class="text-xs font-light leading-3 text-gray-500 dark:text-gray-300">10:00 AM</p>
+                            <a tabindex="0" class="focus:outline-none text-lg font-medium leading-5 text-gray-800 dark:text-gray-100 mt-2">Orientation session with new hires</a>
+                        </div>
+                        <div class="border-b pb-4 border-gray-400 border-dashed pt-5">
+                            <p class="text-xs font-light leading-3 text-gray-500 dark:text-gray-300">9:00 AM</p>
+                            <a tabindex="0" class="focus:outline-none text-lg font-medium leading-5 text-gray-800 dark:text-gray-100 mt-2">Zoom call with design team</a>
+                            <p class="text-sm pt-2 leading-4 leading-none text-gray-600 dark:text-gray-300">Discussion on UX sprint and Wireframe review</p>
+                        </div>  --> 
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+
+
+    </div>
+
+
+
+    <script src="/js/calendar.js"></script>
+</body>
+</html>

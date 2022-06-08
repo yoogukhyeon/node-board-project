@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="https://unpkg.com/flowbite@1.4.1/dist/datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <style>
+        input {
+            outline: none;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="bg-orange-400 w-full text-lg font-medium py-3 fixed z-10 text-gray-700 border-b top-0 left-0 justify-center flex items-center">
+        <span class="cursor-pointer absolute left-5 top-3 text-lg"><a href="/map"><i class="fa-solid fa-arrow-left text-white"></i></a></span>
+        <span class="text-sky-500 dark:text-sky-400 font-medium"></span>
+        <span class="text-white dark:text-white font-medium">우리의 맛집여행! <i class="fa-solid fa-hand-holding-heart"></i></span>
+    </div>
+
+    <div class="bg-white py-10 px-5 flex flex-col space-y-5 h-screen" id="mapBg">
+
+            <div class="bg-white p-5 rounded-2xl shadow-xl mt-7">
+                <h1 class="text-gray-700 font-semibold text-center">우리의 맛집 추가하자! <i class="fa-solid fa-map-location"></i></h1>
+            </div>
+
+      
+            <div class="bg-white p-5 rounded-2xl shadow-xl space-y-4 ">
+                <div>
+                    <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">제목</label>
+                    <input type="text" value="<%= title %>" name="subject" id="subject" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="제목을 입력해주세요." required>
+                </div>
+                <div>
+                    <label for="date" class="block mb-2  text-sm font-medium text-gray-900 dark:text-gray-300">날짜</label>
+                    <input datepicker   datepicker-format="yyyy-mm-dd"  type="text" name="date" id="date" placeholder="날짜를 입력해주세요." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" readonly>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input appearance h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="Y" id="flexCheckDefault" name="flexCheckDefault">
+                    <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                        달력에 추가
+                    </label>
+                </div>   
+                <div class="flex justify-center items-center" style="margin-top: 18px;">
+                    <button type="button" class="w-2/5 text-white bg-orange-400 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="insertData()">저장</button>
+                </div>
+            </div>
+
+        </div>
+      
+        <script>
+            function insertData(){
+                const name = $('#subject').val();
+                const date = $('#date').val();
+                let chk = $('[name="flexCheckDefault"]:checked').val();
+                
+                if(!chk){
+                    chk = 'N'
+                }
+                
+            
+              $.ajax({
+                    url : "/map/insertPlace",
+                    type : "POST",
+                    dataType : "json",
+                    data : {    
+                        name, date, chk
+                    },
+                    success : function(data){
+                       
+                        if(data.data === 'Y'){
+                            alert("달력에 추가했습니다.")
+                            window.location.href = '/calendar'
+                        }else{
+                            alert("저장을 완료했습니다.");
+                            window.history.back();
+                        }
+                    },
+                    error : function(err){
+                        console.log('Error' , err)
+                    }
+                }) 
+                
+            }
+        </script>
+   
+</body>
+</html>

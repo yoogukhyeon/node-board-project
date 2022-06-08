@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+
+    <style>
+        .ellipsis2{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; 
+            -webkit-box-orient: vertical;
+        } 
+    </style>
+
+</head>
+<body>
+    <div class="bg-orange-400 w-full text-lg font-medium py-3 fixed z-10 text-gray-700 border-b top-0 left-0 justify-center flex items-center">
+        <span class="cursor-pointer absolute left-5 top-3 text-lg"><a href="/"><i class="fa-solid fa-arrow-left text-white"></i></a></span>
+        <span class="text-sky-500 dark:text-sky-400 font-medium"></span>
+        <span class="text-white dark:text-white font-medium">우리의 맛집여행! <i class="fa-solid fa-hand-holding-heart"></i></span>
+    </div>
+
+    <div class="bg-white py-10 px-5 flex flex-col space-y-5 h-screen" id="mapBg">
+    
+    
+        <div class="bg-white p-5 rounded-2xl shadow-xl mt-7">
+            <h1 class="text-gray-700 font-semibold text-center">우리의 맛집 리스트! <i class="fa-solid fa-map-location"></i></h1>
+            
+          
+        </div>
+
+      
+            <div class="bg-white p-5 rounded-2xl shadow-xl">
+                <table class="table-fixed">
+                    <thead>
+                      <tr>
+                        <th>Song</th>
+                        <th>Artist</th>
+                        <th>Year</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="ellipsis2">The Sliding Mr. Bones (Next Stop, Pottersville)</span></td>
+                        <td>Malcolm Lockyer</td>
+                        <td>1961</td>
+                      </tr>
+                      <tr>
+                        <td>Witchy Woman</td>
+                        <td>The Eagles</td>
+                        <td>1972</td>
+                      </tr>
+                      <tr>
+                        <td>Shining Star</td>
+                        <td>Earth, Wind, and Fire</td>
+                        <td>1975</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+            
+          
+      
+
+       
+        </div>
+      
+
+
+   
+
+   
+</body>
+</html>

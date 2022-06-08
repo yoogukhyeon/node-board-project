@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ourStory</title>
+
+    <meta name="author" content="ourStory">
+    <link rel="canonical" href="https://itisforyouu.herokuapp.com/" />
+    <meta name="robots" content="index, follow">
+    <meta name="title" content="ourStory">
+    <meta name="description" content="우리들의 소중한 추억을 남기자"> 
+    <meta name="keywords" content="커플,계획,추억">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ourStory" />
+    <meta property="og:description" content="우리들의 소중한 추억을 남기자" />
+    <meta property="og:site_name" content="ourStory">
+   
+
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+
+
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <style>
+        .textarea {
+          width: 100% !important;
+          outline: none !important;
+        }
+        .textarea::-webkit-scrollbar {
+          width: 10px;
+        }
+        .textarea::-webkit-scrollbar-thumb {
+          background-color: #2f3542;
+          border-radius: 10px;
+        }
+        .textarea::-webkit-scrollbar-track {
+          background-color: grey;
+          border-radius: 10px;
+          box-shadow: inset 0px 0px 5px white;
+        }
+    </style>
+</head>
+<body class="bg-slate-400">
+
+    <div class="bg-slate-400 py-10 px-4 flex flex-col h-full space-y-5 mt-5" id="bg">
+
+
+        <div class="bg-white w-full text-base font-medium py-3 px-3 fixed text-gray-700 border-b z-10 top-0 left-0 justify-center flex items-center" id="flexChange">
+            <span class="cursor-pointer absolute left-5 top-3 text-2xl"><a href="/"><i class="fa-solid fa-arrow-left"></i></a></span>
+            <span class="text-sky-500 dark:text-sky-400 font-bold"></span>
+            <span class="text-sky-500 dark:text-sky-400 font-bold">일기장 리스트! <i style="font-size: 15px !important;" class="fa-solid fa-hand-holding-heart"></i></span>
+        </div>
+
+    <% for(let list of storyList){%>
+        <div class="bg-white overflow-hidden rounded-3xl shadow-xl">
+          <div class="bg-blue-500 p-6 pb-14">
+              <span class="text-white text-2xl">Story</span>
+          </div>
+
+            <div class="rounded-xl p-6 bg-white relative -top-10" onclick="goDetail('<%= list.slug %>')" style="cursor: pointer;">
+                <div class="flex items-end relative -top-16 justify-between">
+                    <div>
+                        <span class="text-sm text-gray-500"><%= list.title %></span>
+                    </div>
+                    <div class="h-24 w-24 mx-3 bg-red-400 rounded-full relative overflow-hidden">
+                        <img src="/uploades/images/<%= list.img %>" alt="story img" class="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+                    </div>
+                    <div>
+                        <span class="text-sm text-gray-500"><%= list.createAt.toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                         
+                          }) %></span>
+                    </div>
+                </div>
+                <div class="relative -top-16 mt-5 text-center">
+                    <span class="text-sm font-medium">내용</span>
+                  
+                </div>
+                <div class="relative -top-16 mt-2 ">
+                    <textarea class="textarea" cols="30" <% if( list.content.length > 30){%>  rows="9" <%}else{%> rows="4" <%}%>  class="outline-none p-3 font-bold break-all w-full" readonly >
+                        <%= list.content %>
+                    </textarea>
+                </div>
+          </div>
+        </div> 
+     <%}%>
+
+     <div class="bg-white p-5 rounded-2xl shadow-xl">
+        <nav aria-label="Page navigation example" class="text-center">
+            <ul class="inline-flex items-center -space-x-px">
+              <% if(currentPage > 1){%>
+                <li>
+                <a href="?page=<%= currentPage-1 %>" class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"> Previous </a>
+                </li>
+            <%}else{%>
+                <li>
+                <a href="" style="display: none;">뒤로 안보이기</a>  
+                </li>
+            <%}%>
+       
+            <% for(let i = startPage; i <= endPage ; i++){%>
+                <% if(i === currentPage ){%>
+                    <li>
+                        <a href="?page=<%= i %>" aria-current="page" class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"><%= i %></a>
+                    </li>
+                <%}else{%>
+                    <li>
+                        <a href="?page=<%= i %>" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><%= i %></a>
+                    </li>
+                <%} %>
+            <%}%>
+                    
+
+            <% if(currentPage < totalPage){%>
+                <li>
+                    <a href="?page=<%= currentPage +1 %>" class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                </li>
+            <%}else{%>
+                <li>
+                    <a href="" style="display: none;">앞으로 안보이기</a> 
+                </li>
+            <%}%>
+            </ul>
+          </nav>
+    </div>
+
+    
+    </div>
+
+    <div class="fixed bottom-10 right-6 shadow-xl bg-slate-400 p-3 w-14 h-14 flex justify-center items-center z-10 rounded-full text-white transition-colors hover:bg-slate-500">
+        <a href="/story/insert" class="cursor-pointer"><i class="fa fa-plus" style="font-size: 24px;" ></i></a>
+    </div>
+
+
+    <script>
+        function goDetail(no){
+          window.location.href = `/story/storylist/${no}`;
+        }
+    </script>
+
+</body>
+</html>

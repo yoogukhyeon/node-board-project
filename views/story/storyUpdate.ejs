@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ourStory</title>
+
+    <meta name="author" content="ourStory">
+    <link rel="canonical" href="https://itisforyouu.herokuapp.com/" />
+    <meta name="robots" content="index, follow">
+    <meta name="title" content="ourStory">
+    <meta name="description" content="우리들의 소중한 추억을 남기자"> 
+    <meta name="keywords" content="커플,계획,추억">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ourStory" />
+    <meta property="og:description" content="우리들의 소중한 추억을 남기자" />
+    <meta property="og:site_name" content="ourStory">
+   
+
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+
+
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+</head>
+<body class="bg-slate-400">
+
+    <div class="bg-slate-400 py-10 px-4 flex flex-col h-full space-y-5 mt-5" id="bg">
+
+
+        <div class="bg-white w-full text-base font-medium py-3 px-3 fixed text-gray-700 border-b z-10 top-0 left-0 justify-center flex items-center" id="flexChange">
+            <span class="cursor-pointer absolute left-5 top-3 text-2xl"><a href="/story/storylist"><i class="fa-solid fa-arrow-left"></i></a></span>
+            <span class="text-sky-500 dark:text-sky-400 font-bold"></span>
+            <span class="text-sky-500 dark:text-sky-400 font-bold">추억을 남겨주세요! <i style="font-size: 15px !important;" class="fa-solid fa-hand-holding-heart"></i></span>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-xl">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="/uploades/images/<%= detail.img %>" alt="" class="w-full" id="img"></div>
+                </div>
+              </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-xl">
+            <label for="image" class="form-label inline-block mb-2 text-gray-700">Upload image</label>
+            <form enctype="multipart/form-data" class="imgForm">
+                <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
+                border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile" name="formFile" value="<%= detail.img %>">
+                <input type="hidden" class="hiddenImg" value="<%= detail.img %>">
+            </form>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-xl">
+            <label for="title" class="form-label inline-block mb-2 text-gray-700">제목</label>
+            <input placeholder="제목을 입력해주세요." name="title" id="title" class="w-full outline-none border-2 p-3 border-slate-400 rounded-sm" value="<%= detail.title %>" />
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-xl">
+            <label for="textarea" class="form-label inline-block mb-2 text-gray-700">내용</label>
+            <textarea placeholder="내용을 입력해주세요." name="content" id="textarea" cols="30" rows="10" class="w-full outline-none border-2 p-3 border-slate-400 rounded-sm"><%= detail.content %></textarea>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-xl text-center">
+            <button type="button" class="w-2/5 text-white bg-slate-400 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="updateData()">수정</button>
+        </div>
+
+        
+
+        <div class="shadow-xl flex justify-between items-center">
+            <div class="w-2/4 bg-slate-100 p-4 text-left rounded-l-lg">
+                <a href="#"><i class="fa-solid fa-angle-left"></i><span class="p-2">이전글</span></a>
+            </div>
+            <div class="w-2/4 text-right p-4 rounded-r-lg" style="background-color: #ccc">
+                <a href="#"><span class="p-2">다음글</span><i class="fa-solid fa-angle-right"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const slug = '<%= detail.slug %>'
+
+        let text = document.getElementById("textarea").value;
+        text = text.replaceAll(/(\n|\r\n)/g, "<br>");
+        
+        function insertData(){
+            const content = document.getElementById("textarea").value;
+
+           
+        }
+
+
+    
+        $(function(){
+            $('#formFile').change(function(){
+                readURL(this);
+            })
+        })
+
+
+        function readURL(input){
+            if(input.files && input.files[0]){
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0])
+            }
+        }
+
+
+        
+
+
+        $('.imgForm').on('change', function (e) {
+            var $row = $(this);
+            var form = $row[0];
+            var formData = new FormData(form);
+            formData.append('type','course')
+
+            $.ajax({
+                    url : "/story/upload/img",
+                    type : "post",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success : function(data){
+
+                        if(data.code === 200){
+                            if(data.data === ""){
+                                window.location.reload();
+                            }else{
+                                $('.hiddenImg').val(data.data)
+                                alert("이미지 저장이 완료되었습니다.")
+                            }
+                        } 
+                      
+                    },
+                    error : function(err){
+                        console.log('Error' , err)
+                    }
+                }) 
+
+        }) 
+
+
+        function updateData(){
+            
+            const title = $('#title').val();
+            const textarea = $('#textarea').val();
+            const imgName = $('.hiddenImg').val();
+            if(title === ""){
+                alert("제목을 입력해주세요.")
+                $('#title').focus();
+                return
+            };
+
+            if(textarea === ""){
+                alert("내용을 입력해주세요.")
+                $('#textarea').focus();
+                return
+            };
+
+        
+            $.ajax({
+                url : "/story/update",
+                type : "PUT",
+                dataType : "JSON",
+                data : {
+                    title, textarea, imgName, slug
+                },
+                success : function(data){
+                    console.log("data", data)
+                    if(data.code === 200){
+                        alert("저장이 완료되었습니다.")
+                        window.location.href = '/story/storylist'
+                    }
+                },
+                error : function(err){
+                    console.error(err)
+                }
+            })
+
+        }
+
+      
+        
+
+    </script>
+
+</body>
+</html>

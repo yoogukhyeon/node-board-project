@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple</title>
+
+    <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <!-- fullcalendar CDN -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+    <!-- fullcalendar 언어 CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="https://unpkg.com/flowbite@1.4.1/dist/datepicker.js"></script>
+    <style>
+      .on{
+          display: none;
+      }
+      #modal {
+          display: none;
+      }
+      #modal.show {
+          display: block;
+      }
+      .fc-day-sat .fc-daygrid-day-number { color: rgb(42, 152, 196) !important; }   
+      .fc-day-sun { color:#FF0000 !important; } 
+      .fc-toolbar-title {
+             font-size: 15px !important;
+             font-weight: bold !important;
+        }
+       .fc-toolbar-chunk {position: relative;}
+       .fc-button-group {
+           display: inherit !important;
+       }
+       .fc-button {
+            font-size: 10px !important;
+            background-color: #FB923C !important;
+           border: none !important;
+           outline: none !important;
+       }
+       .fc-prev-button {
+            margin-bottom: 9px !important;
+       }
+       .fc-event-title-container {
+           background-color: #FB923C !important;
+           border: none !important;
+           outline: none !important;
+           font-size: 12px !important;
+       }
+       .fc-event-title fc-sticky {
+           border: none !important;
+           outline: none !important;
+           font-size: 12px !important;
+       }
+       .fc-daygrid-event {
+           border: none !important;
+       }
+       .fc-next-button {
+            margin-bottom: 9px !important;
+        } 
+        .fc-day-today {
+            color: #FB923C;
+            font-size: 13px !important;
+            font-weight: bold !important;
+        }
+        .fc-daygrid-day-number {
+            text-decoration: none !important;
+        }
+        .fc-daygrid-day-number:hover {
+            background-color: #222 !important;
+            border-radius: 20% !important;
+            color: #fff;
+        }
+        .fc-daygrid-day-frame:hover {
+            background-color: rgb(59 130 246 / 0.5) !important;
+        }
+
+        .fc-daygrid-day-frame {
+            overflow: hidden !important;
+        }
+        .fc-daygrid-more-link {
+            color: #FB923C !important;
+            font-weight: bold !important;
+        }
+        .fc-daygrid-day-bottom {
+            line-height: 13px !important;
+        }
+
+        #modal {
+            position: fixed;
+            left: 50%;
+            top: 42%;
+            transform: translate(-50% , -50%);
+            z-index: 9999;
+        }
+
+        input {
+            outline: none !important;
+        }
+
+        .datepicker  {
+            z-index: 9999 !important;
+            left: 0 !important;
+        }
+
+        textarea{
+            outline: none !important;
+        }
+
+        .speech-bubble {
+            position: relative;
+            background: #FB923C;
+            border-radius: .4em;
+        }
+        .fc-daygrid-event-harness {
+            padding: 2px !important;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 15%;
+            left: 80%;
+            width: 0;
+            height: 0;
+            border: 29px solid transparent;
+            border-top-color: #FB923C;
+            border-bottom: 0;
+            margin-left: -29px;
+            margin-bottom: -29px;
+            z-index: 9999;
+        }
+
+        .none {
+            height: 0 !important;
+            overflow: hidden;
+            transform: rotate(180deg);
+        }
+
+        .transition {
+            height: 5rem !important;
+            overflow: unset;
+            transition: all 0.8s ease-in-out !important;
+            transform: rotate(0);
+        }
+        @keyframes wave {
+            0%{
+        	transform: rotate(0deg);
+            }
+            10%{
+                transform: rotate(45deg);
+            }
+            20%{
+                transform: rotate(-45deg);
+            }
+            30%{
+                transform: rotate(30deg);
+            }
+            40%{
+                transform: rotate(-30deg);
+            }
+            50%{
+                transform: rotate(10deg);
+            }
+            60%{
+                transform: rotate(-10deg);
+            }
+            70%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(0deg);
+            }
+        }
+        .wave {
+            animation: wave 1s linear infinite;
+        }
+    </style>
+
+</head>
+<body class="bg-white">
+    <div class="bg-orange-400 w-full text-lg font-medium py-3 fixed z-10 text-gray-700 border-b top-0 left-0 justify-center flex items-center">
+        <span class="cursor-pointer absolute left-5 top-3 text-lg"><a href="/"><i class="fa-solid fa-arrow-left text-white"></i></a></span>
+        <span class="text-sky-500 dark:text-sky-400 font-medium"></span>
+        <span class="text-white dark:text-white font-medium">우리의 계획을 적어주세요 <i class="fa-solid fa-hand-holding-heart"></i></span>
+    </div>
+
+
+
+    <div class="bg-white py-10 px-5 flex flex-col space-y-5 h-screen">
+        <section class="mt-10">
+            <div class="">
+                <div class="">
+                    <div class="
+                        <div class="">
+                            <h2 class="t-uppercase mb-0" id="title"></h2>
+                        </div>
+                        <div class="">
+                            <div id='calendar' style="margin : 0 10px 0 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+    </div>
+
+    <!-- Main modal -->
+        <div class="overflow-y-auto overflow-x-hidden  z-50 w-full md:inset-0 h-modal" id="modal">
+            <div class="relative p-4 w-full h-full ">
+                <!-- Modal content -->
+                <div class="relative bg-slate-100  rounded-lg shadow dark:bg-gray-700">
+                    <div class="flex justify-end p-1">
+                        <button type="button" onclick="closeModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <div class="px-6 pb-3 space-y-2 lg:px-8 sm:pb-6 xl:pb-8 overflow-y-auto">
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white">계획을 입력해주세요 <i class="fa-solid fa-hand-holding-heart"></i></h3>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white" id="modalTime"></span>
+                        <div>
+                            <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">제목</label>
+                            <input type="text" name="subject" id="subject" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="제목을 입력해주세요." required>
+                        </div>
+                        <div>
+                            <label for="place" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">장소</label>
+                            <input type="text" name="place" id="place" placeholder="장소를 입력해주세요." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                        </div>
+                        <div>
+                            <label for="date" class="block mb-2  text-sm font-medium text-gray-900 dark:text-gray-300">날짜</label>
+                            <input datepicker   datepicker-format="yyyy-mm-dd"  type="text" name="date" id="date" placeholder="날짜를 입력해주세요." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" readonly>
+                        </div>
+                        <div >
+                            <label for="desc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">설명</label>
+                            <textarea type="text" name="desc" id="desc" placeholder="설명을 입력해주세요." rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required></textarea>
+                        </div>
+                        <div class="flex justify-center items-center" style="margin-top: 18px;">
+                            <button type="button" class="w-2/5 text-white bg-orange-400 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="insertData()">저장</button>
+                            
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            
+        </div> 
+
+
+        <div class="fixed right-2 z-50 bottom-44 speech-bubble w-56 h-20 flex justify-center items-center none" id="alert"><span class="text-white dark:text-white font-normal text-center align-middle">계획을 만들어주세요~<i class="fa-solid fa-heart"></i></span></div>
+
+        <div onclick="openModal()" id="wave" class="fixed bottom-24 right-6 shadow-xl bg-orange-400 p-3 w-14 h-14 flex justify-center items-center z-50 rounded-full text-white transition-colors hover:bg-orange-500">
+            <a href="#"  class="cursor-pointer"><i class="fa-solid fa-calendar-plus" style="font-size: 24px;"></i></a>
+        </div>
+
+    <script>
+        
+
+       
+
+        (function(){
+            const modalTime = document.getElementById('modalTime')
+            const nowDate =  moment().format('YYYY-MM-DD');
+            modalTime.innerText = 'Today ' + nowDate
+            $('#date').val(nowDate)
+           
+
+            const newCalendar = '<%- data %>'
+
+           /*  let data = [
+                    {
+                        title: 'All Day Event',
+                        start: '2022-04-01',
+                        end: '2022-04-01',
+                        url : `/123`
+                    },
+                    {
+                        title: '유국현테스트2',
+                        start: '2022-04-12',
+                        end: '2022-04-13',
+                        url : `/123`
+                    },
+                    {
+                        title: '유국현테스트3',
+                        start: '2022-04-14',
+                        end: '2022-04-1',
+                        url : `/123`
+                    },
+                ] */
+
+    
+        $(function(){
+
+       
+
+        // calendar element 취득
+        var calendarEl = $('#calendar')[0];
+                
+        var d = new Date(),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        var today = [year, month, day].join('-');
+
+        // full-calendar 생성하기
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+                height: '550px', // calendar 높이 설정
+                expandRows: true, // 화면에 맞게 높이 재설정
+                // 해더에 표시할 툴바
+                headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'listDay,dayGridMonth,listMonth'
+                },
+                views: {
+                        listDay: { buttonText: '일간' },
+                      /*   listWeek: { buttonText: '주간' }, */
+                        dayGridMonth: { buttonText: '월간' },
+                        listMonth: { buttonText: '리스트' }
+                    },
+                initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+                initialDate:  today, // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+                navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+                editable: true, // 수정 가능?
+                selectable: true, // 달력 일자 드래그 설정가능
+                nowIndicator: true, // 현재 시간 마크
+                dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+                locale: 'EN', // 한국어 설정,
+                select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+                        $('#alert').addClass('transition')
+                        const timer =setTimeout(function(){
+                            $('#alert').removeClass('transition')
+
+                            clearTimeout(timer)
+                        }, 2000)
+                      
+                        calendar.unselect()
+                },
+                // 이벤트
+                events: JSON.parse(newCalendar) 
+                    });
+                    // 캘린더 랜더링
+                    calendar.render();
+                    });
+                })();
+
+            function closeModal(){
+                $('#modal').addClass('on')
+                $('#modal').removeClass('show')
+                $('#wave').addClass('wave')
+                const timer = setTimeout(function(){
+                    $('#wave').removeClass('wave')
+                }, 1000)
+            }
+
+            function openModal(){
+                $('#modal').addClass('show')
+                $('#wave').addClass('wave')
+                const timer = setTimeout(function(){
+                    $('#wave').removeClass('wave')
+                }, 1000)
+            }
+
+
+        function insertData(){
+            const subject = $('#subject').val();
+            const place = $('#place').val();
+            const date = $('#date').val();
+            const desc = $('#desc').val();
+            
+            if(subject === ""){
+                alert('제목을 입력해주세요.');
+                $('#subject').focus();
+                return false
+            }
+            if(place === ""){
+                alert('장소를 입력해주세요.');
+                $('#place').focus();
+                return false
+            }
+            if(date === ""){
+                alert('날짜를 입력해주세요.');
+                $('#date').focus();
+                return false
+            }
+            if(desc === ""){
+                alert('계획을 입력해주세요.');
+                $('#desc').focus();
+                return false
+            }
+
+
+            $.ajax({
+                url : "/calendar/insertData",
+                type : "POST",
+                dataType : "JSON",
+                data : {subject , place , date , desc},
+                success : function(data){
+                    if(data.code === 200){
+                        window.location.reload();
+                    }
+                },
+                error : function(err){
+                    console.error("Error" , err)
+                }
+            })
+
+        }
+
+
+        </script>
+        
+      
+  
+</body>
+</html>
