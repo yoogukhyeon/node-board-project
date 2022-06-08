@@ -15,7 +15,6 @@ const storySchema = new mongoose.Schema({
     },
     img : {
         type : String,
-        required : true
     },
     createAt : {
         type : Date,

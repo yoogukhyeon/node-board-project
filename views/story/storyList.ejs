@@ -66,42 +66,55 @@
             <span class="text-sky-500 dark:text-sky-400 font-bold"></span>
             <span class="text-sky-500 dark:text-sky-400 font-bold">일기장 리스트! <i style="font-size: 15px !important;" class="fa-solid fa-hand-holding-heart"></i></span>
         </div>
-
-    <% for(let list of storyList){%>
+    <%if(storyList.length < 1){%>
         <div class="bg-white overflow-hidden rounded-3xl shadow-xl">
-          <div class="bg-blue-500 p-6 pb-14">
-              <span class="text-white text-2xl">Story</span>
-          </div>
-
-            <div class="rounded-xl p-6 bg-white relative -top-10" onclick="goDetail('<%= list.slug %>')" style="cursor: pointer;">
-                <div class="flex items-end relative -top-16 justify-between">
-                    <div>
-                        <span class="text-sm text-gray-500"><%= list.title %></span>
+            <div class="bg-blue-500 p-6 pb-14">
+                <span class="text-white text-2xl">Story 데이터가 없습니다.</span>
+            </div> 
+          </div> 
+    <%}else{%>
+        <% for(let list of storyList){%>
+            <div class="bg-white overflow-hidden rounded-3xl shadow-xl">
+              <div class="bg-blue-500 p-6 pb-14">
+                  <span class="text-white text-2xl">Story</span>
+              </div>
+    
+                <div class="rounded-xl p-6 bg-white relative -top-10" onclick="goDetail('<%= list.slug %>')" style="cursor: pointer;">
+                    <div class="flex items-end relative -top-16 justify-between">
+                        <div>
+                            <span class="text-sm text-gray-500"><%= list.title %></span>
+                        </div>
+                        <div class="h-24 w-24 mx-3 bg-red-400 rounded-full relative overflow-hidden">
+                            <% if(list.img === ''){%>
+                                <span class="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center p-3">No Img</span>
+                            <%}else{%>
+                                <img src="/uploades/images/<%= list.img %>" alt="story img" class="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+                            <%}%>
+                            
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500"><%= list.createAt.toLocaleDateString('ko-KR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                             
+                              }) %></span>
+                        </div>
                     </div>
-                    <div class="h-24 w-24 mx-3 bg-red-400 rounded-full relative overflow-hidden">
-                        <img src="/uploades/images/<%= list.img %>" alt="story img" class="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+                    <div class="relative -top-16 mt-5 text-center">
+                        <span class="text-sm font-medium">내용</span>
+                      
                     </div>
-                    <div>
-                        <span class="text-sm text-gray-500"><%= list.createAt.toLocaleDateString('ko-KR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                         
-                          }) %></span>
+                    <div class="relative -top-16 mt-2 ">
+                        <div class="textarea" style="word-break: break-all;"  class="outline-none p-3 font-bold break-all w-full" readonly >
+                            <%= list.content %>
+                        </div>
                     </div>
-                </div>
-                <div class="relative -top-16 mt-5 text-center">
-                    <span class="text-sm font-medium">내용</span>
-                  
-                </div>
-                <div class="relative -top-16 mt-2 ">
-                    <textarea class="textarea" cols="30" <% if( list.content.length > 30){%>  rows="9" <%}else{%> rows="4" <%}%>  class="outline-none p-3 font-bold break-all w-full" readonly >
-                        <%= list.content %>
-                    </textarea>
-                </div>
-          </div>
-        </div> 
-     <%}%>
+              </div>
+            </div> 
+         <%}%>
+    <%}%>
+  
 
      <div class="bg-white p-5 rounded-2xl shadow-xl">
         <nav aria-label="Page navigation example" class="text-center">
