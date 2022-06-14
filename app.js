@@ -3,6 +3,7 @@ const express = require("express");
 const app = express()
 const home = require('./router/router');
 const story = require('./router/story')
+const user = require('./router/user')
 const connectDB = require('./config/db');
 const path = require('path')
 
@@ -18,6 +19,8 @@ app.set('views' , './views');
 
 app.use('/' , home)
 app.use('/story' , story)
+app.use('/user', user)
+
 const port = process.env.PORT || 5000;
 
 app.listen(port , () => {
