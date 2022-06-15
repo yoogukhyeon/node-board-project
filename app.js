@@ -19,7 +19,7 @@ app.set('views' , './views');
 
 app.use('/' , home)
 app.use('/story' , story)
-app.use('/user', user)
+app.use('/auth', user)
 
 const port = process.env.PORT || 5000;
 
