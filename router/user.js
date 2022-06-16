@@ -13,13 +13,13 @@ router.get('/sign-up' ,async(req , res) => {
         console.log("authCode", authCode)
 
 
-     /*    const test = await twilioClient.messages.create({
+        const test = await twilioClient.messages.create({
             messagingServiceSid : process.env.TWILIO_SEND,
             to : '+8201020595897',
-            body : `민영이 전용 핸드폰 인증 개발코드 테스트 입니다 민영이 생일이 인증번호 0519 이며 다른 인증번호 암호화 테스트 입니다~ 테스트니 삭제해라~~ㅋㅋㅋㅋ`
-        }) */
+            body : `민영이 전용인증 번호 개발 api는 (949) 353-6367 인증 암호는 민영이 생일 0519 && 암호화 코드 6자리 주면 그때부터 민영이만 사용할수있어 어플~ㅋㅋㅋ`
+        }) 
 
-      /*   console.log("test ::", test)  */
+        console.log("test ::", test)  
 
         res.render('login/signUp')
     }catch(err){
