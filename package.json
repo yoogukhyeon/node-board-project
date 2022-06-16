@@ -24,7 +24,8 @@
     "pm2": "^5.2.0",
     "short-uuid": "^4.2.0",
     "shortid": "^2.2.16",
-    "string-strip-html": "^8.3.0"
+    "string-strip-html": "^8.3.0",
+    "twilio": "^3.77.3"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.4",
