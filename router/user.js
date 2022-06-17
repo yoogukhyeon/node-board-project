@@ -3,6 +3,16 @@ const router = express.Router();
 const User = require('../models/user')
 const twilioClient = require('./common/twilio')
 
+const phoneMember = [
+    {
+        phone : process.env.PHONE_1
+    },
+    {
+        phone : process.env.PHONE_2
+    }
+]
+
+
 
 //sign-up
 router.get('/sign-up' ,async(req , res) => {
