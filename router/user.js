@@ -1,17 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
-const twilioClient = require('./common/twilio')
+const passport = require('passport')
 const resResult = require('./common/resResult')
 
-/* const phoneMember = [
+ const phoneMember = [
     {
-        phone : process.env.PHONE_1
+        phone : '+8201065344776'
     },
     {
-        phone : process.env.PHONE_2
+        phone : '+8201020595897'
     }
-] */
+] 
+
+//sign-in
+router.get('/sign-in' ,async(req , res) => {
+    try{
+        res.render('login/signIn')
+    }catch(err){
+        console.error(err)
+    }
+   
+})
+
+//sign-in post
+router.post('/sign-in', passport.authenticate('local', {
+    successRedirect : '/',
+    failureRedirect : '/auth/sign-in'
+}))
 
 
 
@@ -41,7 +57,7 @@ router.post('/sign-up', async(req, res) => {
 
         console.log("insertResut", insertResut)
 
-        res.redirect('/auth/sign-up')
+        res.redirect('/auth/sign-in')
     }catch(err){
         console.error('Error', err)
     }
@@ -54,12 +70,16 @@ router.post('/chkPhone',  async(req, res) => {
   try{   
     const authCode = Math.floor(100000 + Math.random() * 90000);
 
+    for(let i =0; i < phoneMember.length; i++){
+        let sendPhone = phoneMember[i].phone
 
-    const test = await twilioClient.messages.create({
+        const result = await twilioClient.messages.create({
             messagingServiceSid : process.env.TWILIO_SEND,
-            to : '+8201065344776',
+            to : sendPhone,
             body : `민영이전용 인증번호 6자리는 ${authCode} 입니다.`
-    })   
+        })  
+    }
+
  
 
     result = resResult(true, 200, "데이터 전송 완료", authCode);

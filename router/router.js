@@ -11,11 +11,16 @@ const shortid = require('shortid');
 const schedule = require('node-schedule');
 var HTMLParser = require('node-html-parser');
 
+var isAuthenticated = function (req, res, next) {
+    if (req.isAuthenticated())
+      return next();
+    res.redirect('/auth/sign-in');
+  };
+
 //list
-router.get('/' , async(req, res) => {
+router.get('/' , isAuthenticated , async(req, res) => {
         let {page , title} = req.query
 
-      
     try{
         title = title ? title : ""
 

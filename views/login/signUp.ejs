@@ -74,6 +74,7 @@
                                     <input type="text" placeholder="auth" name="auth" id="auth"
                                         class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                                     <input type="hidden" name="authCode" id="authCode">
+                                    <input type="hidden" name="authChk" id="authChk" value="N">
                                 </div>
                                 <div class="flex-2 align-middle bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-2 rounded">
                                     <button onclick="chkAuth();" id="chkBtnAuth">인증확인</button>
@@ -91,14 +92,15 @@
                                 <input type="text" placeholder="Email"
                                     name="email" id="email"
                                     class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
-                            <span class="text-xs text-red-300">8 ~ 16자 영문, 숫자, 특수문자를 최소 넣어주세요.</span>
                     </div>
                     <div class="mt-4">
                         <label class="block">비밀번호<label>
                                 <input type="password" placeholder="Password" name="password" id="password"
                                     class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                                <span class="text-xs text-red-300">8 ~ 16자 영문, 숫자, 특수문자를 최소 넣어주세요.</span>
                     </div>
                     <span class="text-base mt-5 text-slate-500 block">민영이만 가입 가능합니다~</span>
+                    <span class="text-base mt-5 text-slate-500 block"><a href="/auth/sign-in">로그인</a> </span>
                     <div class="flex">
                         <button id="send" class="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">회원가입</button>
                     </div>
@@ -159,6 +161,7 @@
     let authHiddenCode = document.getElementById('authCode');
     let sendBtnPhone = document.getElementById('sendBtnPhone');
     let chkBtnAuth = document.getElementById('chkBtnAuth');
+    let authChk = document.getElementById('authChk');
 
     
     
@@ -184,6 +187,12 @@
             alert('비밀번호을 입력해주세요.');
             password.focus();
             return false
+        }
+
+        if(authChk.value === 'N'){
+            alert('핸드폰 인증을 해주세요.');
+            phone.focus();
+            return false;
         }
 
 
@@ -212,10 +221,10 @@
 
     })
 
-
     function sendPhone(e){
         alert("민영이 핸드폰번호만 인증가능한뎅?ㅋㅋㅋ");
         let only = '010-6534-4776';
+        let only2 = '010-2059-5897';
         let phoneVal = phone
 
         if(phoneVal.value === ""){
@@ -224,7 +233,7 @@
         }
 
 
-       if(only === phoneVal.value){
+       if(only === phoneVal.value || only2 === phoneVal.value){
             alert("인증번호가 발송되었습니다.");
 
             authBox.classList.add('active')
@@ -253,10 +262,12 @@
     }
 
     function chkAuth(){
-        if(authCode.value === auth.value){
+
+        if(authHiddenCode.value === auth.value){
             alert("인증을 완료했습니다.")
             auth.setAttribute('readonly', true);
             chkBtnAuth.setAttribute('disabled', true)
+            authChk.value = 'Y'
             nickName.focus();
         }else{
             alert("인증번호를 다시 입력해주세요.")
