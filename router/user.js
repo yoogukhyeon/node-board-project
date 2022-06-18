@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
 const passport = require('passport')
+const twilioClient = require('./common/twilio')
 const resResult = require('./common/resResult')
 
  const phoneMember = [
@@ -72,7 +73,7 @@ router.post('/chkPhone',  async(req, res) => {
 
     for(let i =0; i < phoneMember.length; i++){
         let sendPhone = phoneMember[i].phone
-
+        console.log("sendPhone", sendPhone)
         const result = await twilioClient.messages.create({
             messagingServiceSid : process.env.TWILIO_SEND,
             to : sendPhone,

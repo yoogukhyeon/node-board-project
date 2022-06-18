@@ -236,14 +236,13 @@
        if(only === phoneVal.value || only2 === phoneVal.value){
             alert("인증번호가 발송되었습니다.");
 
-            authBox.classList.add('active')
-
             $.ajax({
                 url : '/auth/chkPhone',
                 type : "POST",
                 dataType : "JSON",
                 data : {},
                 success : function(data){
+                    authBox.classList.add('active')
                     phone.setAttribute('readonly', true)
                     sendBtnPhone.setAttribute('disabled', true)
                     const authCode = data.data
