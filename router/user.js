@@ -16,8 +16,14 @@ const resResult = require('./common/resResult')
 
 //sign-in
 router.get('/sign-in' ,async(req , res) => {
+    const fmsg = req.flash();
+    let error;
+    if(fmsg.error){
+        error = fmsg.error[0]
+    }
+
     try{
-        res.render('login/signIn')
+        res.render('login/signIn', {error})
     }catch(err){
         console.error(err)
     }
@@ -27,7 +33,8 @@ router.get('/sign-in' ,async(req , res) => {
 //sign-in post
 router.post('/sign-in', passport.authenticate('local', {
     successRedirect : '/',
-    failureRedirect : '/auth/sign-in'
+    failureRedirect : '/auth/sign-in',
+    failureFlash : true
 }))
 
 
@@ -45,8 +52,6 @@ router.get('/sign-up' ,async(req , res) => {
 router.post('/sign-up', async(req, res) => {
 
     const {name, nickName, email, password} = req.body
-
-    console.log(req.body)
 
     try{
         const insertResut = await User.create({
@@ -79,7 +84,7 @@ router.post('/chkPhone',  async(req, res) => {
             to : sendPhone,
             body : `민영이전용 인증번호 6자리는 ${authCode} 입니다.`
         })  
-    }
+    } 
 
  
 

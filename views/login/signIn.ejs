@@ -46,7 +46,10 @@
                     <div class="mt-4">
                         <label class="block">비밀번호<label>
                             <input type="password" placeholder="Password" name="password" id="password"
-                                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">                       
+                            <% if( error ){%>
+                                <div class="my-3 text-red-500"><%= error %> </div>
+                            <%}%>
                     </div>
                     <span class="text-base mt-5 text-slate-500 block"><a href="/auth/sign-up">회원가입</a></span>
                     <div class="flex">

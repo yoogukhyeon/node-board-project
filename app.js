@@ -13,6 +13,7 @@ const session = require("express-session");
 const User = require('./models/user')
 const mongoose = require('mongoose')
 const connectMongo = require('connect-mongo')(session)
+const flash = require('connect-flash');
 connectDB();
 
 app.use(express.json())
@@ -34,8 +35,10 @@ app.use(
     store : new connectMongo({ mongooseConnection: mongoose.connection })
   })
 );
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 passport.serializeUser(function(user, done){
     done(null, {    
