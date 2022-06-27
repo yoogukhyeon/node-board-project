@@ -51,6 +51,7 @@ passport.deserializeUser(function(id, done){
     User.findOne(id, function(err, user){
         if(err) throw err;
         done(null, {
+            id : user.id,
             email : user.email,
             name : user.name
         })

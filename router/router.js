@@ -4,18 +4,15 @@ const Couple = require('../models/couple')
 const Search = require('../models/search')
 const Calendar = require('../models/calendar')
 const Place = require('../models/place')
+const user = require('../models/user')
 const short = require('short-uuid');
 const { db } = require('../models/couple');
 const resResult = require('./common/resResult')
 const shortid = require('shortid');
 const schedule = require('node-schedule');
-var HTMLParser = require('node-html-parser');
+const HTMLParser = require('node-html-parser');
+const {isAuthenticated} = require('./common/authenticated')
 
-var isAuthenticated = function (req, res, next) {
-    if (req.isAuthenticated())
-      return next();
-    res.redirect('/auth/sign-in');
-  };
 
 //list
 router.get('/' , isAuthenticated , async(req, res) => {
@@ -67,8 +64,9 @@ router.get('/' , isAuthenticated , async(req, res) => {
         let searchData = await Search.find().sort({"_id" : -1}).limit(3)
 
 
-        let listData = await Couple.find({title: { $regex: titleRegex } }).sort({"_id" : -1}).skip(hidePost).limit(maxPost)
+        let listData = await Couple.find({title: { $regex: titleRegex } }).populate({ path: 'writer', select: 'nickName' }).sort({"_id" : -1}).skip(hidePost).limit(maxPost)
         
+
         res.render('index' , {listData
             , startPage, 
               endPage, 
@@ -96,12 +94,14 @@ router.get('/insertPlan' ,async(req , res) => {
 router.post('/insertData' ,async(req , res) => {
     let slugId = short.generate(); 
     const {title , editordata} = req.body
-    
+    const {id} = req.user;
+
     try{
         const result = await Couple.create({
             title : title,
             content : editordata,
-            slug : slugId
+            slug : slugId,
+            writer : id
         })
 
         
@@ -123,7 +123,7 @@ router.post('/insertData' ,async(req , res) => {
 
     }catch(err){
         console.error("Error" , err)
-    }
+    } 
 
    
 })

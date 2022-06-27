@@ -22,6 +22,11 @@ const coupleSchema = new mongoose.Schema({
         type : String,
         required : true,
         unique: true
+    },
+    writer : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "User",
+        required : true
     }
 })
 
