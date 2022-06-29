@@ -17,7 +17,7 @@ const {isAuthenticated} = require('./common/authenticated')
 //list
 router.get('/' , isAuthenticated , async(req, res) => {
         let {page , title} = req.query
-
+       
     try{
         title = title ? title : ""
 
@@ -30,11 +30,11 @@ router.get('/' , isAuthenticated , async(req, res) => {
         const maxPage = 5;
 
         let currentPage = page ? Number(page) : 1;
-            currentPage = page  <= 1 ? 1 : 1;
-        let hidePost = page === 1 ? 0 : (page - 1) * maxPost; 
-            hidePost = page <= 1 ? 0 : (page - 1) * maxPost; 
+            /* currentPage = page  <= 1 ? 1 : 1; */
+        let hidePost = page === 1 ? 0 : (Number(page) - 1) * maxPost; 
+            /* hidePost = page <= 1 ? 0 : (page - 1) * maxPost; */ 
         let totalPage = Math.ceil(totalCnt / maxPost);
-            totalPage = totalPage < 1 ? 1 : 1;
+            /* totalPage = totalPage < 1 ? 1 : 1; */
 
 
         if(currentPage > totalPage){
@@ -44,15 +44,12 @@ router.get('/' , isAuthenticated , async(req, res) => {
         }
         
         
-      
-
         if(currentPage < 1){
             currentPage = 1
 
             res.redirect(`/?page=${currentPage}`)
         }
         
-       
 
         const startPage = Math.floor(((currentPage - 1) / maxPage)) * maxPage + 1; 
         let endPage = startPage + maxPage - 1;
@@ -61,12 +58,12 @@ router.get('/' , isAuthenticated , async(req, res) => {
           endPage = totalPage;
         }
 
+    
         let searchData = await Search.find().sort({"_id" : -1}).limit(3)
 
 
         let listData = await Couple.find({title: { $regex: titleRegex } }).populate({ path: 'writer', select: 'nickName' }).sort({"_id" : -1}).skip(hidePost).limit(maxPost)
         
-
         res.render('index' , {listData
             , startPage, 
               endPage, 
