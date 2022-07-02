@@ -152,6 +152,14 @@
             width: 82px;
         }
 
+        .read {
+            background-color: #eee !important;
+            background-image: url('./img/checkread.png');
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            background-position: 680px 20px;
+        }
+
         @keyframes blink {
             from {
                 opacity: 0;
@@ -306,7 +314,7 @@
             </div>
         <%}else{%>
             <% for(let list of listData){ %>
-                <div class="bg-white p-5 rounded-2xl shadow-xl" id="topLine">
+                <div class="bg-white p-5 rounded-2xl shadow-xl" id="topLine" no="<%= list.slug %>">
                     <div class="flex justify-between items-center">
                         <div class="w-1/2">
                             <h3><span class="ellipsis font-bold"> <%= list.title %> </span></h3>
@@ -321,7 +329,7 @@
                               }) %></span>
                         </div>
                     </div>
-                    <div class="text-gray-700 font-bold py-3">
+                    <div class="text-gray-700 font-bold py-3" onclick="saveLocal('<%= list.slug%>');">
                         <% if(list.snippet){ %>
                             <%= list.snippet %>
                         <% }else{ %>
@@ -491,6 +499,50 @@
         window.location.href= `/?page=${page}&title=${keyword}`
       }
 
+      //save localStorage 
+      function saveLocal(id){
+
+        //localStorage slug 없다면 빈배열생성
+        if(!localStorage.getItem('slug')){
+            localStorage.setItem('slug', '[]')
+        }
+
+        //localStorage 빈배열 가져와서 새로운 값 넣기
+        let slugList = JSON.parse(localStorage.getItem('slug'));
+
+        slugList.push(id)
+
+        //slug 배열 중복 제거
+        const removeSameId = [...new Set(slugList)]
+      
+        
+        //localStorage slug 셋팅
+        localStorage.setItem('slug', JSON.stringify(removeSameId))
+
+       
+
+        /* window.location.href = `/detailPlan/${id}` */ 
+        
+      }
+
+      window.addEventListener('DOMContentLoaded', function(){
+        const localSavedId = JSON.parse(localStorage.getItem('slug'));
+
+        const listId = document.querySelectorAll('#topLine')
+        
+
+        for(let i = 0; i < listId.length; i++){
+            const listIdVal = listId[i].getAttribute('no');
+            for(let j = 0; j < localSavedId.length; j++){
+                const localIdVal = localSavedId[j];
+
+                if(listIdVal === localIdVal){
+                    console.log("listId[i]" , listId[i])
+                    listId[i].classList.add('read')
+                }
+            }
+        }
+      })
 
     </script>
 </body>

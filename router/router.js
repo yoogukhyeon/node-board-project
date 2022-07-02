@@ -17,7 +17,7 @@ const {isAuthenticated} = require('./common/authenticated')
 //list
 router.get('/' , isAuthenticated , async(req, res) => {
         let {page , title} = req.query
-       
+        
     try{
         title = title ? title : ""
 
@@ -144,11 +144,15 @@ router.get('/updatePlan/:slug' ,async(req , res) => {
 router.post('/updateData' ,async(req , res) => {
     
     const { slug , title , editordata} = req.body;
+    
+    //html tag 제거하기
+    const convertData = editordata.replace(/<[^>]*>?/g, '')
+
     try{
         const result = await Couple.findOneAndUpdate({slug} , {
             title : title,
-            content : editordata,
-            snippet : editordata,
+            content : convertData,
+            snippet : convertData, 
             createAt : new Date(),
         })
 
@@ -183,28 +187,20 @@ router.post('/insertSearch', async(req , res) => {
     }   
 })
 
+//index detail 
+router.get('/detailPlan/:id', async(req, res) => {
 
+    const {id} = req.params 
 
-
-router.post('/test', async(req , res) => {
-    let result = 'success' 
-    const id = shortid.generate()
-   
-
-   
     try{
-        
-    
+        const result = await Couple.findOne({
+            slug : id
+        })
 
-
-        result = 'success'
+        res.render('detail', {result}) 
     }catch(err){
-        console.log("Error" , err)
-    }finally{
-        res.send({
-            id
-        });
-    }   
+        console.error("Error", err)
+    }
 })
 
 
