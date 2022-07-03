@@ -15,7 +15,7 @@ const {isAuthenticated} = require('./common/authenticated')
 
 
 //list
-router.get('/' , isAuthenticated , async(req, res) => {
+router.get('/', isAuthenticated, async(req, res) => {
         let {page , title} = req.query
         
     try{
@@ -30,11 +30,11 @@ router.get('/' , isAuthenticated , async(req, res) => {
         const maxPage = 5;
 
         let currentPage = page ? Number(page) : 1;
-            /* currentPage = page  <= 1 ? 1 : 1; */
+            /* currentPage = page  < 1 ? 1 : Number(page) */; 
         let hidePost = page === 1 ? 0 : (Number(page) - 1) * maxPost; 
-            /* hidePost = page <= 1 ? 0 : (page - 1) * maxPost; */ 
+            /* hidePost = page < 1 ? 0 : (Number(page) - 1) * maxPost;   */
         let totalPage = Math.ceil(totalCnt / maxPost);
-            /* totalPage = totalPage < 1 ? 1 : 1; */
+            /* totalPage = totalPage < 1 ? 1 : totalPage;  */
 
 
         if(currentPage > totalPage){
@@ -83,7 +83,7 @@ router.get('/' , isAuthenticated , async(req, res) => {
 
 
 //insert
-router.get('/insertPlan' ,async(req , res) => {
+router.get('/insertPlan', isAuthenticated ,async(req , res) => {
     res.render('insert')
 })
 
@@ -126,7 +126,7 @@ router.post('/insertData' ,async(req , res) => {
 })
 
 //edit
-router.get('/updatePlan/:slug' ,async(req , res) => {
+router.get('/updatePlan/:slug', isAuthenticated ,async(req , res) => {
 
     const { slug } = req.params
    
@@ -141,7 +141,7 @@ router.get('/updatePlan/:slug' ,async(req , res) => {
     }
 });
 
-router.post('/updateData' ,async(req , res) => {
+router.post('/updateData', isAuthenticated ,async(req , res) => {
     
     const { slug , title , editordata} = req.body;
     
@@ -188,7 +188,7 @@ router.post('/insertSearch', async(req , res) => {
 })
 
 //index detail 
-router.get('/detailPlan/:id', async(req, res) => {
+router.get('/detailPlan/:id', isAuthenticated, async(req, res) => {
 
     const {id} = req.params 
 
@@ -216,7 +216,7 @@ router.get('/detailPlan/:id', async(req, res) => {
 }) */
 
 //calendar list
-router.get('/calendar' , async(req , res) => {
+router.get('/calendar' , isAuthenticated, async(req , res) => {
     try{
         let calendar = await Calendar.find()
         
@@ -242,7 +242,7 @@ router.get('/calendar' , async(req , res) => {
 
 
 //calendar update
-router.get('/calendar/:id' , async(req , res) => {
+router.get('/calendar/:id', isAuthenticated, async(req , res) => {
         const {id} = req.params
     try{
         const findData = await Calendar.findOne({id});
@@ -257,7 +257,7 @@ router.get('/calendar/:id' , async(req , res) => {
 
 
 //specialContent insert post data
-router.post('/calendar/insertData', async (req, res, next) =>{
+router.post('/calendar/insertData', isAuthenticated, async (req, res, next) =>{
     let result = new Object();
         const {subject , place , date , desc} = req.body
 
@@ -300,7 +300,7 @@ router.post('/calendar/insertData', async (req, res, next) =>{
 
 
 //calendar update
-router.post('/calendar/updateData', async (req, res, next) =>{
+router.post('/calendar/updateData', isAuthenticated, async (req, res, next) =>{
     let result = new Object();
         const {id , subject , place , date , desc} = req.body
        
@@ -339,7 +339,7 @@ try{
 
 
 //map placeList
-router.get('/map/placeList/:title' , async(req , res) => {
+router.get('/map/placeList/:title', isAuthenticated, async(req , res) => {
     const {title} = req.params;
 
     try{
@@ -361,7 +361,7 @@ router.get('/map/placeList' , async(req , res) => {
 })
 
 //map placeList insert
-router.post('/map/insertPlace', async (req, res, next) =>{
+router.post('/map/insertPlace', isAuthenticated, async (req, res, next) =>{
     let result = new Object();
         const {name, date, chk} = req.body
      
