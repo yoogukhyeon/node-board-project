@@ -16,8 +16,17 @@ const connectMongo = require('connect-mongo')(session)
 const flash = require('connect-flash');
 connectDB();
 
-app.use(express.json())
-app.use(express.urlencoded({extended : true}))
+
+app.use(express.json({
+    limit : "50mb"
+}));
+app.use(express.urlencoded({
+    limit:"50mb",
+    extended: true
+}));
+
+// app.use(express.json())
+// app.use(express.urlencoded({extended : true}))
 app.use(express.static(path.join(__dirname , 'public')))
 
 
@@ -62,18 +71,14 @@ passport.deserializeUser(function(id, done){
 //passport local strategy 실행
 passportConfig();
 
-
-
-
 app.set('view engine' , 'ejs');
 app.set('views' , './views');
-
 
 app.use('/' , home)
 app.use('/story' , story)
 app.use('/auth', user)
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 app.listen(port , () => {
     console.log(`${port}포트 포트로 이동중.....`)

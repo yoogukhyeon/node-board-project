@@ -124,14 +124,8 @@
         <div class="bg-slate-400 p-5 rounded-2xl shadow-xl" >
             <div class="map_wrap">
                 <div id="map" class="rounded-2xl" style="width:100%;height:450px;position:relative;overflow:hidden;"></div>
-            
-         
             </div>
-            
-          
         </div>
-
-       
 
         <div class="bg-slate-400 p-7 rounded-2xl  shadow-xl " >
             <div class="map_wrap">
@@ -139,7 +133,7 @@
                     <div class="option">
                         <div id="form">
                             <form onsubmit="searchPlaces(); return false;" class="text-xs">
-                                키워드 : <input type="text" value="잠실새내 맛집" class="text-xs" id="keyword" size="13" placeholder="맛집을 입력해주세요!"> 
+                                키워드 : <input type="text" value="을지로입구 맛집" class="text-xs" id="keyword" size="13" placeholder="맛집을 입력해주세요!"> 
                                 <button type="submit" class="text-xs">검색하기</button> 
                             </form>
                         </div>
@@ -148,9 +142,7 @@
                     <ul id="placesList"></ul>
                     <div id="pagination"></div>
                 </div>
-            </div>
-            
-          
+            </div>          
         </div>
     </div>
 
@@ -230,7 +222,7 @@
     </div> 
 
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11600d2dfab669fa30823e1888baf125&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b802a364660bcbe0b3ed6759bdb56669&libraries=services"></script>
     <script>
     let bg = document.getElementById('mapBg');
     let detail = document.getElementById('mapDetail')
@@ -258,7 +250,7 @@
     
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
         mapOption = {
-            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+            center: new kakao.maps.LatLng(37.56600488555594, 126.98220663751879), // 지도의 중심좌표
             level: 1, // 지도의 확대 레벨
             mapTypeId : kakao.maps.MapTypeId.ROADMAP
         };  

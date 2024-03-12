@@ -40,14 +40,14 @@ router.post('/sign-in', passport.authenticate('local', {
 
 
 //sign-up
-router.get('/sign-up' ,async(req , res) => {
-    try{
-        res.render('login/signUp')
-    }catch(err){
-        console.error(err)
-    }
+// router.get('/sign-up' ,async(req , res) => {
+//     try{
+//         res.render('login/signUp')
+//     }catch(err){
+//         console.error(err)
+//     }
    
-})
+// })
 
 router.post('/sign-up', async(req, res) => {
 
@@ -82,7 +82,7 @@ router.post('/chkPhone',  async(req, res) => {
         const result = await twilioClient.messages.create({
             messagingServiceSid : process.env.TWILIO_SEND,
             to : sendPhone,
-            body : `민영이전용 인증번호 6자리는 ${authCode} 입니다.`
+            body : `희수전용 인증번호 6자리는 ${authCode} 입니다.`
         })  
     } 
 

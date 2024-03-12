@@ -15,9 +15,10 @@ const {isAuthenticated} = require('./common/authenticated')
 
 
 //list
+//isAuthenticated
 router.get('/', isAuthenticated, async(req, res) => {
         let {page , title} = req.query
-        
+     
     try{
         title = title ? title : ""
 
@@ -37,18 +38,19 @@ router.get('/', isAuthenticated, async(req, res) => {
             /* totalPage = totalPage < 1 ? 1 : totalPage;  */
 
 
-        if(currentPage > totalPage){
-            currentPage = totalPage
-
-            res.redirect(`/?page=${currentPage}`)
-        }
+            
+        // if(currentPage > totalPage){
+        //     currentPage = totalPage
+        //     console.log("123")
+        //     // res.redirect(`/?page=${currentPage}`)
+        // }
         
         
-        if(currentPage < 1){
-            currentPage = 1
-
-            res.redirect(`/?page=${currentPage}`)
-        }
+        // if(currentPage < 1){
+        //     currentPage = 1
+        //     console.log("123123123123")
+        //     // res.redirect(`/?page=${currentPage}`)
+        // }
         
 
         const startPage = Math.floor(((currentPage - 1) / maxPage)) * maxPage + 1; 
